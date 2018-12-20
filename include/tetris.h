@@ -1,12 +1,18 @@
 #pragma once
 
+#define _XOPEN_SOURCE 500
+
 #define WIDTH 10
 #define HEIGHT 20
+#define INIT_X 5
+#define INIT_Y 1
 
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "map.h"
+#include "game.h"
+#include "bloc.h"
 
 enum bloc_type {
     BLOC_O,
