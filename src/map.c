@@ -36,6 +36,43 @@ static void print_char(char c)
     */
 }
 
+static int *points_bloc_x(int type)
+{
+    int *res = calloc(sizeof(int), 4);
+}
+
+
+static int *point_bloc_y(int type)
+{
+    int *res = calloc(sizeof(int), 4);
+
+
+    return res;
+}
+
+int put_bloc(char **map, struct bloc)
+{
+    int x = bloc->pos_x;
+    int y = bloc->pos_y;
+    int *x_diff = points_bloc_x(bloc->type); // 4 blocks
+    int *y_diff = points_bloc_y(bloc->type); // 4 blocks
+    for (int i = 0; i < 4; i++)
+    { 
+        if (map[x + x_diff[i]][y + y_diff[i]] == '#')
+        {
+            free(x_diff);
+            free(y_diff);
+            return 1;
+        }
+    }
+    for (int i = 0; i < 4; i++)
+        map[x + x_diff[i]][y + y_diff[i]] = '#';
+    free(x_diff);
+    free(y_diff);
+    return 0;
+}
+
+
 void print_map(char **map)
 {
     for (int i = 0; i < HEIGHT; i++)
