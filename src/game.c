@@ -18,3 +18,21 @@ void game_destroy(struct game *game)
     bloc_destroy(game->cur_bloc);
     free(game);
 }
+
+
+int update(struct game *game)
+{
+    game->cur_bloc->pos_y++;
+    if (is_coliding(game->map, game->cur_bloc))
+    {
+        game->cur_bloc->pos_y--;
+
+        put_bloc(game->map, game->cur_bloc);
+        bloc_destroy(game->cur_bloc);
+        game->cur_bloc = bloc_init(game->next);
+        game->next = random_bloc_type();
+        if (is_coliding(game->map, game->cur_bloc))
+            return 1;
+    }
+    return 0;
+}

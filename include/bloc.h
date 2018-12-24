@@ -7,4 +7,33 @@ int random_bloc_type(void);
 struct bloc *bloc_init(int type);
 void bloc_destroy(struct bloc *bloc);
 
-void put_bloc(char **map, struct bloc);
+int *points_bloc_x(int type, int rot);
+int *points_bloc_y(int type, int rot);
+/*
+
+##
+O#
+
+#
+#
+O
+#
+
+#
+0
+##
+
+ #
+#0#
+
+ #
+ 0
+##
+
+ ##
+#0
+
+##
+ 0#
+
+ */

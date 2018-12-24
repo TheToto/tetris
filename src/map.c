@@ -22,7 +22,10 @@ void map_destroy(char **map)
 
 static void print_char(char c)
 {
-    printf("%c", c);
+    if (!c)
+        printf(" ");
+    else
+        printf("%c", c);
     /*
     switch(c)
     {
@@ -36,50 +39,71 @@ static void print_char(char c)
     */
 }
 
-static int *points_bloc_x(int type)
-{
-    int *res = calloc(sizeof(int), 4);
-}
 
-
-static int *point_bloc_y(int type)
-{
-    int *res = calloc(sizeof(int), 4);
-
-
-    return res;
-}
-
-int put_bloc(char **map, struct bloc)
+int is_coliding(char **map, struct bloc *bloc)
 {
     int x = bloc->pos_x;
     int y = bloc->pos_y;
-    int *x_diff = points_bloc_x(bloc->type); // 4 blocks
-    int *y_diff = points_bloc_y(bloc->type); // 4 blocks
+    int *diff_x = bloc->diff_x;
+    int *diff_y = bloc->diff_y;
+
     for (int i = 0; i < 4; i++)
-    { 
-        if (map[x + x_diff[i]][y + y_diff[i]] == '#')
-        {
-            free(x_diff);
-            free(y_diff);
+    {
+        if (x + diff_x[i] >= WIDTH || x + diff_x[i] < 0
+            || y + diff_y[i] >= HEIGHT || y + diff_y[i] < 0)
+            return 2;
+
+        if (map[y + diff_y[i]][x + diff_x[i]] == '#')
             return 1;
-        }
     }
+    return 0;
+}
+int put_bloc(char **map, struct bloc *bloc)
+{
+    if (is_coliding(map, bloc))
+        return 1;
+
+    int x = bloc->pos_x;
+    int y = bloc->pos_y;
+    int *diff_x = bloc->diff_x;
+    int *diff_y = bloc->diff_y;
+
     for (int i = 0; i < 4; i++)
-        map[x + x_diff[i]][y + y_diff[i]] = '#';
-    free(x_diff);
-    free(y_diff);
+        map[y + diff_y[i]][x + diff_x[i]] = '#';
     return 0;
 }
 
 
-void print_map(char **map)
+void print_map(char **map, struct bloc *bloc)
 {
-    for (int i = 0; i < HEIGHT; i++)
-    {
-        for (int j = 0; j < WIDTH; j++)
-            print_char(map[i][j]);
-        printf("\n");
+    for (int i = 0; i < WIDTH + 2; i++)
+        printf("-");
+    printf("\n");
+
+    int x = bloc->pos_x;
+    int y = bloc->pos_y;
+    int *diff_x = bloc->diff_x;
+    int *diff_y = bloc->diff_y;
+
+
+    for (int i = 0; i < HEIGHT; i++) {
+        printf("|");
+        for (int j = 0; j < WIDTH; j++) {
+            for (int n = 0; n < 4; n++)
+            {
+                if (j == x + diff_x[n] && i == y + diff_y[n])
+                {
+                    print_char(bloc->c);
+                    break;
+                }
+                if (n == 3)
+                    print_char(map[i][j]);
+            }
+        }
+        printf("|\n");
     }
+
+    for (int i = 0; i < WIDTH + 2; i++)
+        printf("-");
     printf("\n");
 }
