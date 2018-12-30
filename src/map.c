@@ -76,6 +76,7 @@ int put_bloc(char **map, struct bloc *bloc)
 
 void print_map(char **map, struct bloc *bloc)
 {
+    system("clear");
     for (int i = 0; i < WIDTH + 2; i++)
         printf("-");
     printf("\n");

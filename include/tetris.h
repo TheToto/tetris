@@ -18,6 +18,9 @@
 #include <sys/select.h>
 #include <termios.h>
 
+#include <fcntl.h>
+#include <errno.h>
+#include <linux/input.h>
 
 enum bloc_type {
     BLOC_O,

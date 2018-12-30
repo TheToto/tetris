@@ -24,37 +24,47 @@ int main()
     int msec = 0;
     int trigger = 250; //milliseconds
 
-    clock_t before = clock();
-    set_conio_terminal_mode();
     srandom(time(NULL));
+
+
+    int fd, bytes;
+    struct input_event data;
+
+    const char *pDevice = "/dev/input/event0";
+
+    // Open Keyboard
+    fd = open(pDevice, O_RDONLY | O_NONBLOCK);
+    if(fd == -1)
+    {
+        printf("ERROR Opening %s\ntry sudo ./tetris\n", pDevice);
+        return -1;
+    }
+
 
     struct game *game = game_init();
 
-
-    while (!kbhit() && msec < trigger)
-    {
-        clock_t difference = clock() - before;
-        msec = difference * 1000 / CLOCKS_PER_SEC;
-
-
-
-    }
-    (void)getch(); /* consume the character */
-
-
+    print_map(game->map, game->cur_bloc);
     while (!update(game))
     {
-        char c = 0;
+        clock_t before = clock();
 
-        if(kbhit()){
-            c = getch();
-            printf("%c\n", c);
-        }
+        do
+        {
+            bytes = read(fd, &data, sizeof(data));
+            if(bytes > 0)
+            {
+                printf("Keypress value=%x, type=%x, code=%x\n", data.value, data.type, data.code);
+            }
+
+            clock_t difference = clock() - before;
+            msec = difference * 1000 / CLOCKS_PER_SEC;
+
+        } while (msec < trigger);
+
 
         print_map(game->map, game->cur_bloc);
-        sleep_ms(250);
     }
-    
+
     game_destroy(game);
     return 0;
 }
