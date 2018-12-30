@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 project(my-bittorrent LANGUAGES C)
 
-add_compile_options(-Wall -Wextra -Werror -std=c99 -pedantic -g)
+add_compile_options(-Wall -Wextra -std=c99 -pedantic -g)
 
 include_directories( ${CMAKE_SOURCE_DIR}/include )
 
