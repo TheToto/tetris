@@ -54,4 +54,3 @@ struct game {
 #include "map.h"
 #include "game.h"
 #include "bloc.h"
-#include "input.h"
