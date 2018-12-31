@@ -7,7 +7,7 @@
 #define WIDTH 10
 #define HEIGHT 20
 #define INIT_X 5
-#define INIT_Y 2
+#define INIT_Y 1
 
 #include <stdio.h>
 #include <stdlib.h>
