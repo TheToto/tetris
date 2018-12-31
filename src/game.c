@@ -31,7 +31,7 @@ int update(struct game *game)
         bloc_destroy(game->cur_bloc);
         game->cur_bloc = bloc_init(game->next);
         game->next = random_bloc_type();
-        if (is_coliding(game->map, game->cur_bloc))
+        if (is_coliding(game->map, game->cur_bloc) == 1)
             return 1;
     }
     return 0;
