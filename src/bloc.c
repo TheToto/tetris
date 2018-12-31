@@ -50,6 +50,24 @@ struct bloc *bloc_init(int type)
 }
 
 
+int bloc_move(struct game *game, int left)
+{
+    if (left)
+        game->cur_bloc->pos_x--;
+    else
+        game->cur_bloc->pos_x++;
+    if (is_coliding(game->map, game->cur_bloc))
+    {
+        if (left)
+            game->cur_bloc->pos_x++;
+        else
+            game->cur_bloc->pos_x--;
+        return 1;
+    }
+
+    return 0;
+}
+
 void bloc_destroy(struct bloc *bloc)
 {
     free(bloc->diff_x);

@@ -13,10 +13,6 @@ void sleep_ms(int milliseconds) // cross-platform sleep function
 #endif
 }
 
-int get_input(void)
-{
-    return 0;
-}
 
 
 int main()
@@ -31,6 +27,7 @@ int main()
     struct input_event data;
 
     const char *pDevice = "/dev/input/event0";
+    short pressed = 0;
 
     // Open Keyboard
     fd = open(pDevice, O_RDONLY | O_NONBLOCK);
@@ -53,7 +50,20 @@ int main()
             bytes = read(fd, &data, sizeof(data));
             if(bytes > 0)
             {
-                printf("Keypress value=%x, type=%x, code=%x\n", data.value, data.type, data.code);
+                if (data.value == 205 || data.value == 203)
+                {
+                    if (pressed)
+                        pressed = 0;
+                    else
+                    {
+                        pressed = 1;
+                        if (!bloc_move(game, (data.value == 203)))
+                            print_map(game->map, game->cur_bloc);
+                    }
+                }
+
+//                printf("type: %d\ncode: %d\n\n", data.type, data.code);
+//                printf("pressed: %d\n", pressed);
             }
 
             clock_t difference = clock() - before;
