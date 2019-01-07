@@ -52,19 +52,45 @@ struct bloc *bloc_init(int type)
 
 int bloc_move(struct game *game, int left)
 {
+    struct bloc *bloc = game->cur_bloc;
     if (left)
-        game->cur_bloc->pos_x--;
+        bloc->pos_x--;
     else
-        game->cur_bloc->pos_x++;
-    if (is_coliding(game->map, game->cur_bloc))
+        bloc->pos_x++;
+    if (is_coliding(game->map, bloc))
     {
         if (left)
-            game->cur_bloc->pos_x++;
+            bloc->pos_x++;
         else
-            game->cur_bloc->pos_x--;
+            bloc->pos_x--;
         return 1;
     }
 
+    return 0;
+}
+
+int bloc_rotate(struct game *game)
+{
+    struct bloc *bloc = game->cur_bloc;
+
+    bloc->rot = (bloc->rot + 1) % 4;
+
+    free(bloc->diff_x);
+    free(bloc->diff_y);
+
+    bloc->diff_x = points_bloc_x(bloc->type, bloc->rot);
+    bloc->diff_y = points_bloc_y(bloc->type, bloc->rot);
+
+    if (is_coliding(game->map, bloc))
+    {
+        bloc->rot = (bloc->rot - 1) % 4;
+        free(bloc->diff_x);
+        free(bloc->diff_y);
+
+        bloc->diff_x = points_bloc_x(bloc->type, bloc->rot);
+        bloc->diff_y = points_bloc_y(bloc->type, bloc->rot);
+        return 1;
+    }
     return 0;
 }
 
@@ -78,7 +104,9 @@ void bloc_destroy(struct bloc *bloc)
 
 int *points_bloc_x(int type, int rot)
 {
-    rot = rot;
+    if (rot == 1 || rot == 3)
+        return points_bloc_y(type, rot - 1);
+
     int *res = calloc(sizeof(int), 4);
     switch(type)
     {
@@ -107,12 +135,21 @@ int *points_bloc_x(int type, int rot)
         res[3] = 1;
         break;
     }
+
+    if (rot == 2)
+    {
+        for (int i = 0; i < 4; i++)
+            res[i] = -res[i];
+    }
+
     return res;
 }
 
 int *points_bloc_y(int type, int rot)
 {
-    rot = rot;
+    if (rot == 1 || rot == 3)
+        return points_bloc_x(type, rot - 1);
+
     int *res = calloc(sizeof(int), 4);
 
     switch(type)
@@ -148,5 +185,12 @@ int *points_bloc_y(int type, int rot)
         res[1] = -1;
         break;
     }
+
+    if (rot == 2)
+    {
+        for (int i = 0; i < 4; i++)
+            res[i] = -res[i];
+    }
+
     return res;
 }

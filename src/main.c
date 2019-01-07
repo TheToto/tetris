@@ -44,26 +44,30 @@ int main()
     while (!update(game))
     {
         clock_t before = clock();
-
         do
         {
             bytes = read(fd, &data, sizeof(data));
             if(bytes > 0)
             {
-                if (data.value == 205 || data.value == 203)
+                if (data.value == 205 || data.value == 203
+                    || data.value == 200)
                 {
                     if (pressed)
                         pressed = 0;
                     else
                     {
                         pressed = 1;
-                        if (!bloc_move(game, (data.value == 203)))
+                        if (data.value == 200 && !bloc_rotate(game))
+                            print_map(game->map, game->cur_bloc);
+
+                        else if (data.value == 208)
+                            data.value = data.value; //TODO
+
+                        else if (!bloc_move(game, (data.value == 203)))
                             print_map(game->map, game->cur_bloc);
                     }
                 }
-
 //                printf("type: %d\ncode: %d\n\n", data.type, data.code);
-//                printf("pressed: %d\n", pressed);
             }
 
             clock_t difference = clock() - before;
@@ -73,6 +77,7 @@ int main()
 
 
         print_map(game->map, game->cur_bloc);
+        printf("rot: %d\n", game->cur_bloc->rot);
     }
 
     game_destroy(game);
