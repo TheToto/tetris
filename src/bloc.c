@@ -71,6 +71,8 @@ int bloc_move(struct game *game, int left)
 
 int bloc_rotate(struct game *game)
 {
+    if (game->cur_bloc->type == BLOC_O)
+        return 1;
     struct bloc *bloc = game->cur_bloc;
 
     bloc->rot = (bloc->rot + 1) % 4;
@@ -80,6 +82,10 @@ int bloc_rotate(struct game *game)
 
     bloc->diff_x = points_bloc_x(bloc->type, bloc->rot);
     bloc->diff_y = points_bloc_y(bloc->type, bloc->rot);
+
+
+//    if (bloc TODO bloc S and Z mirrored
+
 
     if (is_coliding(game->map, bloc))
     {

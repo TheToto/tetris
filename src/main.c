@@ -57,8 +57,11 @@ int main()
                     else
                     {
                         pressed = 1;
-                        if (data.value == 200 && !bloc_rotate(game))
-                            print_map(game->map, game->cur_bloc);
+                        if (data.value == 200)
+                        {
+                            if (!bloc_rotate(game))
+                                print_map(game->map, game->cur_bloc);
+                        }
 
                         else if (data.value == 208)
                             data.value = data.value; //TODO
@@ -77,7 +80,7 @@ int main()
 
 
         print_map(game->map, game->cur_bloc);
-        printf("rot: %d\n", game->cur_bloc->rot);
+//        printf("rot: %d\n", game->cur_bloc->rot);
     }
 
     game_destroy(game);
