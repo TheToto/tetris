@@ -73,6 +73,37 @@ int put_bloc(char **map, struct bloc *bloc)
     return 0;
 }
 
+static void remove_line(char **map, int n)
+{
+    int i = n;
+    while (i > 0)
+    {
+        for (int j = 0; j < WIDTH; j++)
+            map[i][j] = map[i - 1][j];
+        i--;
+    }
+    for (int j = 0; j < WIDTH; j++)
+        map[0][j] = ' ';
+}
+
+int check_lines(char **map)
+{
+    int ret = 0;
+    for (int i = 0; i < HEIGHT; i++)
+    {
+        int j = 0;
+        while (j < WIDTH && map[i][j] == '#')
+            j++;
+        if (j >= WIDTH)
+        {
+            remove_line(map, i);
+            ret = 1;
+        }
+    }
+
+    return ret;
+}
+
 
 void print_map(char **map, struct bloc *bloc)
 {
