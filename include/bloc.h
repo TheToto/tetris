@@ -11,6 +11,7 @@ int *points_bloc_x(int type, int rot);
 int *points_bloc_y(int type, int rot);
 
 int bloc_move(struct game *game, int left);
+int bloc_down(struct game *game, int bottom);
 int bloc_rotate(struct game *game);
 /*
 

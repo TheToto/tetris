@@ -69,6 +69,24 @@ int bloc_move(struct game *game, int left)
     return 0;
 }
 
+int bloc_down(struct game *game, int bottom)
+{
+    struct bloc *bloc = game->cur_bloc;
+    bloc->pos_y++;
+
+    if (is_coliding(game->map, bloc))
+    {
+        bloc->pos_y--;
+        return 0;
+    }
+    while (bottom && !is_coliding(game->map, bloc))
+        bloc->pos_y++;
+
+    if (bottom)
+        bloc->pos_y--;
+    return 1 + bottom;
+}
+
 int bloc_rotate(struct game *game)
 {
     if (game->cur_bloc->type == BLOC_O)
