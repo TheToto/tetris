@@ -107,7 +107,7 @@ int check_lines(char **map)
 
 void print_map(char **map, struct bloc *bloc)
 {
-    system("clear");
+//    system("clear");
     for (int i = 0; i < WIDTH + 2; i++)
         printf("-");
     printf("\n");

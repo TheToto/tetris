@@ -129,7 +129,17 @@ void bloc_destroy(struct bloc *bloc)
 int *points_bloc_x(int type, int rot)
 {
     if (rot == 1 || rot == 3)
-        return points_bloc_y(type, rot - 1);
+    {
+        switch(type)
+        {
+        case BLOC_I:
+            return points_bloc_y(type, 0);
+        case BLOC_T:
+            return points_bloc_y(type, rot + 1);
+        default:
+            return points_bloc_y(type, rot - 1);
+        }
+    }
 
     int *res = calloc(sizeof(int), 4);
     switch(type)
@@ -172,7 +182,21 @@ int *points_bloc_x(int type, int rot)
 int *points_bloc_y(int type, int rot)
 {
     if (rot == 1 || rot == 3)
-        return points_bloc_x(type, rot - 1);
+    {
+        switch(type)
+        {
+        case BLOC_S:
+            return points_bloc_x(BLOC_Z, rot - 1);
+        case BLOC_Z:
+            return points_bloc_x(BLOC_S, rot - 1);
+        case BLOC_I:
+            return points_bloc_x(BLOC_I, 0);
+        case BLOC_T:
+            return points_bloc_x(BLOC_T, rot + 1);
+        default:
+            return points_bloc_x(type, rot - 1);
+        }
+    }
 
     int *res = calloc(sizeof(int), 4);
 
