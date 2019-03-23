@@ -136,6 +136,15 @@ int *points_bloc_x(int type, int rot)
             return points_bloc_y(type, 0);
         case BLOC_T:
             return points_bloc_y(type, rot + 1);
+
+
+        case BLOC_J:
+        case BLOC_L:
+            if (rot == 3)
+                return points_bloc_y(type == BLOC_J ? BLOC_L : BLOC_J, rot - 1);
+
+            __attribute__ ((fallthrough));
+
         default:
             return points_bloc_y(type, rot - 1);
         }
@@ -193,6 +202,14 @@ int *points_bloc_y(int type, int rot)
             return points_bloc_x(BLOC_I, 0);
         case BLOC_T:
             return points_bloc_x(BLOC_T, rot + 1);
+
+        case BLOC_J:
+        case BLOC_L:
+            if (rot == 3)
+                return points_bloc_x(type == BLOC_J ? BLOC_L : BLOC_J, rot - 1);
+
+        __attribute__ ((fallthrough));
+
         default:
             return points_bloc_x(type, rot - 1);
         }
