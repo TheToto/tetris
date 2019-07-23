@@ -1,21 +1,14 @@
 #include "input.h"
 
 
-int get_input(struct game *game, int value, short *pressed)
+int get_input(struct game *game, int value)
 {
-    if (value != 57 && value != 200 && value != 203 && value != 205 && value != 208)
+    if (value != ' ' && value != 'z' && value != 'q' && value != 's' && value != 'd')
         return 0;
 
-    if (*pressed)
-    {
-        *pressed = 0;
-        return 0;
-    }
-
-    *pressed = 1;
-    if (value == 200)
+    if (value == 'z')
         return !bloc_rotate(game);
-    if (value == 208 || value == 57)
-        return bloc_down(game, value == 57);
-    return !bloc_move(game, value == 203);
+    if (value == 's' || value == ' ')
+        return bloc_down(game, value == ' ');
+    return !bloc_move(game, value == 'q');
 }
