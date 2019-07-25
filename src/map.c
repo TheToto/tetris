@@ -110,7 +110,7 @@ void print_map(char **map, struct bloc *bloc)
     system("clear");
     for (int i = 0; i < WIDTH + 2; i++)
         printf("-");
-    printf("\n");
+    printf("\r\n");
 
     int x = bloc->pos_x;
     int y = bloc->pos_y;
@@ -132,10 +132,10 @@ void print_map(char **map, struct bloc *bloc)
                     print_char(map[i][j]);
             }
         }
-        printf("|\n");
+        printf("|\r\n");
     }
 
     for (int i = 0; i < WIDTH + 2; i++)
         printf("-");
-    printf("\n");
+    printf("\r\n");
 }

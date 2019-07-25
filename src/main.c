@@ -22,21 +22,11 @@ int main()
 
     srandom(time(NULL));
 
-
-    int fd, bytes;
-    struct input_event data;
-
-    const char *pDevice = "/dev/input/event0";
-    short pressed = 0;
-
     // Open Keyboard
-    fd = open(pDevice, O_RDONLY | O_NONBLOCK);
-    if(fd == -1)
-    {
-        printf("ERROR Opening %s\ntry sudo ./tetris\n", pDevice);
-        return -1;
-    }
-
+    system("/bin/stty raw"); // To use getchar without pressing Enter
+    int flags = fcntl(0, F_GETFL, 0); // Set stdin non blocking
+    flags |= O_NONBLOCK;
+    fcntl(0, F_SETFL, flags);
 
     struct game *game = game_init();
 
@@ -47,10 +37,10 @@ int main()
         clock_t before = clock();
         do
         {
-            bytes = read(fd, &data, sizeof(data));
-            if (bytes > 0)
+            char in = getchar();
+            if (errno == EAGAIN) // Nothing in stdin
             {
-                int input = get_input(game, data.value, &pressed);
+                int input = get_input(game, in);
                 if (input)
                 {
                     print_map(game->map, game->cur_bloc);
@@ -66,5 +56,6 @@ int main()
     }
 
     game_destroy(game);
+    system("/bin/stty cooked"); // Default mode
     return 0;
 }
