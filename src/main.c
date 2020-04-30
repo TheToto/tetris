@@ -18,7 +18,7 @@ void sleep_ms(int milliseconds) // cross-platform sleep function
 int main()
 {
     int msec = 0;
-    int trigger = 250; //milliseconds
+    int trigger = DEFAULT_TRIGGER; //milliseconds
 
     srandom(time(NULL));
 
@@ -46,15 +46,17 @@ int main()
                 if (input)
                 {
                     print_map(game->map, game->cur_bloc, score);
-                    if(input == 2)
+                    if(input == 3)
                         break;
+                    if (input == 2)
+                        before = clock();
                 }
             }
 
             clock_t difference = clock() - before;
             msec = difference * 1000 / CLOCKS_PER_SEC;
 
-        } while (msec < trigger);
+        } while (msec < trigger - score * 10);
     }
 
     game_destroy(game);

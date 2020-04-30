@@ -84,7 +84,7 @@ int bloc_down(struct game *game, int bottom)
 
     if (bottom)
         bloc->pos_y--;
-    return 1 + bottom;
+    return 2 + bottom;
 }
 
 int bloc_rotate(struct game *game)

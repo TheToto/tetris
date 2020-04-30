@@ -22,6 +22,8 @@
 #include <errno.h>
 #include <linux/input.h>
 
+#define DEFAULT_TRIGGER 500
+
 enum bloc_type {
     BLOC_O,
     BLOC_I,
