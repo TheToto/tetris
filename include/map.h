@@ -12,6 +12,7 @@ int check_lines(char **map);
 int is_coliding(char **map, struct bloc *bloc);
 int put_bloc(char **map, struct bloc *bloc);
 
+#define CLEAR "\033[1;1H\033[2J"
 
 #define RED   "\x1B[31m"
 #define GRN   "\x1B[32m"

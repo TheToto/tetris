@@ -24,7 +24,7 @@ static void print_char(char c)
 {
     if (c == 0)
     {
-        printf(" ");
+        printf("  ");
         return;
     }
 
@@ -52,7 +52,7 @@ static void print_char(char c)
         printf(RED);
         break;
     }
-    printf("█" RESET);
+    printf("██" RESET);
 }
 
 
@@ -99,7 +99,7 @@ static void remove_line(char **map, int n)
         i--;
     }
     for (int j = 0; j < WIDTH; j++)
-        map[0][j] = ' ';
+        map[0][j] = 0;
 }
 
 int check_lines(char **map)
@@ -123,10 +123,10 @@ int check_lines(char **map)
 
 void print_map(char **map, struct bloc *bloc, int score)
 {
-    printf("\033[1;1H\033[2J"); // A lot faster than system("clear")
+    printf(CLEAR); // A lot faster than system("clear")
     printf("╔");
-    for (int i = 1; i < WIDTH * 2 + 1; i++)
-        printf("═");
+    for (int i = 1; i < WIDTH + 1; i++)
+        printf("══");
     printf("╗");
     printf("\r\n");
 
@@ -144,21 +144,17 @@ void print_map(char **map, struct bloc *bloc, int score)
                 if (j == x + diff_x[n] && i == y + diff_y[n])
                 {
                     print_char(bloc->c);
-                    print_char(bloc->c);
                     break;
                 }
                 if (n == 3)
-                {
                     print_char(map[i][j]);
-                    print_char(map[i][j]);
-                }
             }
         }
         printf("║\r\n");
     }
     printf("╚");
-    for (int i = 1; i < WIDTH * 2 + 1; i++)
-        printf("═");
+    for (int i = 1; i < WIDTH + 1; i++)
+        printf("══");
     printf("╝");
     printf("\r\n");
     printf("Score : %d", score);
