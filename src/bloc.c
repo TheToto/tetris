@@ -41,7 +41,7 @@ struct bloc *bloc_init(int type)
     res->pos_y = INIT_Y;
     res->type = type;
     res->rot = 0;
-    res->c = '#';
+    res->c = type;
 
     res->diff_x = points_bloc_x(type, res->rot);
     res->diff_y = points_bloc_y(type, res->rot);

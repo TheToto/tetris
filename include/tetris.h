@@ -25,13 +25,13 @@
 #define DEFAULT_TRIGGER 350
 
 enum bloc_type {
-    BLOC_O,
-    BLOC_I,
-    BLOC_L,
-    BLOC_T,
-    BLOC_J,
-    BLOC_S,
-    BLOC_Z
+    BLOC_O = 1,
+    BLOC_I = 2,
+    BLOC_L = 3,
+    BLOC_T = 4,
+    BLOC_J = 5,
+    BLOC_S = 6,
+    BLOC_Z = 7,
 };
 
 struct bloc {

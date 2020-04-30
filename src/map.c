@@ -22,15 +22,37 @@ void map_destroy(char **map)
 
 static void print_char(char c)
 {
+    if (c == 0)
+    {
+        printf(" ");
+        return;
+    }
+
     switch(c)
     {
-    case '#':
-        printf("▒");
+    case BLOC_O:
+        printf(YEL);
         break;
-    default:
-        printf(" ");
+    case BLOC_I:
+        printf(CYN);
+        break;
+    case BLOC_L:
+        printf(WHT);
+        break;
+    case BLOC_T:
+        printf(MAG);
+        break;
+    case BLOC_J:
+        printf(BLU);
+        break;
+    case BLOC_S:
+        printf(GRN);
+        break;
+    case BLOC_Z:
+        printf(RED);
         break;
     }
+    printf("█" RESET);
 }
 
 
@@ -47,7 +69,7 @@ int is_coliding(char **map, struct bloc *bloc)
             || y + diff_y[i] >= HEIGHT || y + diff_y[i] < 0)
             return 2;
 
-        if (map[y + diff_y[i]][x + diff_x[i]] == '#')
+        if (map[y + diff_y[i]][x + diff_x[i]] != 0)
             return 1;
     }
     return 0;
@@ -63,7 +85,7 @@ int put_bloc(char **map, struct bloc *bloc)
     int *diff_y = bloc->diff_y;
 
     for (int i = 0; i < 4; i++)
-        map[y + diff_y[i]][x + diff_x[i]] = '#';
+        map[y + diff_y[i]][x + diff_x[i]] = bloc->type;
     return 0;
 }
 
@@ -86,7 +108,7 @@ int check_lines(char **map)
     for (int i = 0; i < HEIGHT; i++)
     {
         int j = 0;
-        while (j < WIDTH && map[i][j] == '#')
+        while (j < WIDTH && map[i][j] != 0)
             j++;
         if (j >= WIDTH)
         {
