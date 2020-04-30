@@ -32,9 +32,13 @@ int main()
 
     int score = 0;
 
+    int current_trigger = trigger;
     print_map(game->map, game->cur_bloc, score);
     while (!update(game, &score))
     {
+        current_trigger = trigger - score * 10;
+        if (current_trigger < 75)
+            current_trigger = 75;
         print_map(game->map, game->cur_bloc, score);
         clock_t before = clock();
         do
@@ -56,7 +60,7 @@ int main()
             clock_t difference = clock() - before;
             msec = difference * 1000 / CLOCKS_PER_SEC;
 
-        } while (msec < trigger - score * 10);
+        } while (msec < current_trigger);
     }
 
     game_destroy(game);
