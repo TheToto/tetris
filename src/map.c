@@ -22,21 +22,15 @@ void map_destroy(char **map)
 
 static void print_char(char c)
 {
-    if (!c)
-        printf(" ");
-    else
-        printf("%c", c);
-    /*
     switch(c)
     {
     case '#':
         printf("#");
         break;
-    case ' ':
+    case 0:
         printf(" ");
         break;
     }
-    */
 }
 
 
@@ -108,8 +102,10 @@ int check_lines(char **map)
 void print_map(char **map, struct bloc *bloc, int score)
 {
     printf("\033[1;1H\033[2J"); // A lot faster than system("clear")
-    for (int i = 0; i < WIDTH + 2; i++)
-        printf("-");
+    printf("╔");
+    for (int i = 1; i < WIDTH + 1; i++)
+        printf("═");
+    printf("╗");
     printf("\r\n");
 
     int x = bloc->pos_x;
@@ -119,7 +115,7 @@ void print_map(char **map, struct bloc *bloc, int score)
 
 
     for (int i = 0; i < HEIGHT; i++) {
-        printf("|");
+        printf("║");
         for (int j = 0; j < WIDTH; j++) {
             for (int n = 0; n < 4; n++)
             {
@@ -132,11 +128,12 @@ void print_map(char **map, struct bloc *bloc, int score)
                     print_char(map[i][j]);
             }
         }
-        printf("|\r\n");
+        printf("║\r\n");
     }
-
-    for (int i = 0; i < WIDTH + 2; i++)
-        printf("-");
+    printf("╚");
+    for (int i = 1; i < WIDTH + 1; i++)
+        printf("═");
+    printf("╝");
     printf("\r\n");
     printf("Score : %d", score);
 }
