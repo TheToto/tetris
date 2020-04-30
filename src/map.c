@@ -105,9 +105,9 @@ int check_lines(char **map)
 }
 
 
-void print_map(char **map, struct bloc *bloc)
+void print_map(char **map, struct bloc *bloc, int score)
 {
-    system("clear");
+    printf("\033[1;1H\033[2J"); // A lot faster than system("clear")
     for (int i = 0; i < WIDTH + 2; i++)
         printf("-");
     printf("\r\n");
@@ -138,4 +138,5 @@ void print_map(char **map, struct bloc *bloc)
     for (int i = 0; i < WIDTH + 2; i++)
         printf("-");
     printf("\r\n");
+    printf("Score : %d", score);
 }

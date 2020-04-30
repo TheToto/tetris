@@ -30,10 +30,12 @@ int main()
 
     struct game *game = game_init();
 
-    print_map(game->map, game->cur_bloc);
-    while (!update(game))
+    int score = 0;
+
+    print_map(game->map, game->cur_bloc, score);
+    while (!update(game, &score))
     {
-        print_map(game->map, game->cur_bloc);
+        print_map(game->map, game->cur_bloc, score);
         clock_t before = clock();
         do
         {
@@ -43,7 +45,7 @@ int main()
                 int input = get_input(game, in);
                 if (input)
                 {
-                    print_map(game->map, game->cur_bloc);
+                    print_map(game->map, game->cur_bloc, score);
                     if(input == 2)
                         break;
                 }

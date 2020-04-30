@@ -20,7 +20,7 @@ void game_destroy(struct game *game)
 }
 
 
-int update(struct game *game)
+int update(struct game *game, int *score)
 {
     game->cur_bloc->pos_y++;
     if (is_coliding(game->map, game->cur_bloc))
@@ -33,7 +33,7 @@ int update(struct game *game)
         game->next = random_bloc_type();
         if (is_coliding(game->map, game->cur_bloc) == 1)
             return 1;
-        check_lines(game->map);
+        *score += check_lines(game->map);
     }
     return 0;
 }
